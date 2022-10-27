@@ -22,7 +22,7 @@ const EditableCalendarInput: FC<Props> = ({ className, value, selected, onChange
           className={'input ' + (className ? className : '')}
           selected={selected}
           onChange={onChange ? (date) => onChange(date) : (date) => null}
-          dateFormat="MMM dd, yyyy"
+          dateFormat="dd.MM.yyyy"
         />
       )}
     </>

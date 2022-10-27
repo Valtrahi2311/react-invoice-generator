@@ -41,9 +41,9 @@
 }
 
 .download-pdf {
-  position: fixed;
-  top: 100px;
-  margin-left: -110px;
+  position: absolute;
+  top: 54px;
+  left: 384px;
   width: 40px;
   height: 40px;
   background: url('../images/download.svg');
