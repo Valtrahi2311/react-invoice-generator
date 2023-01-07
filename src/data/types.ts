@@ -11,6 +11,7 @@ export interface Invoice {
   logoWidth: number
   title: string
   companyName: string
+  companyName2: string
   name: string
   companyAddress: string
   companyAddress2: string
