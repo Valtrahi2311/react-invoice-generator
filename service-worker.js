@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/react-invoice-generator/precache-manifest.de3a4f36c2e6ef7f2ddab2144dfd4cb0.js"
+  "/react-invoice-generator/precache-manifest.9295199a88cbe6ac53212f1b28bfedd2.js"
 );
 
 self.addEventListener('message', (event) => {
