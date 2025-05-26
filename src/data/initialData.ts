@@ -1,0 +1,58 @@
+import { ProductLine, Invoice } from './types'
+
+export const initialProductLine: ProductLine = {
+  description: '',
+  quantity: '1',
+  rate: '0,00',
+}
+
+export const initialInvoice: Invoice = {
+  logo: '',
+  logoWidth: 100,
+  title: 'Rechnung',
+  companyName: '',
+  companyName2: '',
+  name: '',
+  companyAddress: '',
+  companyAddress2: '',
+  companyCountry: 'Deutschland ',
+  billTo: 'Für Kunde: ',
+  clientName: '',
+  clientAddress: '',
+  clientAddress2: '',
+  clientCountry: 'Deutschland',
+  invoiceTitleLabel: 'Rechnungs Nr.',
+  invoiceTitle: '',
+  invoiceDateLabel: 'Rechnungsdatum ',
+  invoiceDate: '',
+  invoiceDueDateLabel: 'Fälligkeitsdatum ',
+  invoiceDueDate: '',
+  productLineDescription: 'Leistungsbeschreibung',
+  productLineQuantity: 'Stunden',
+  productLineQuantityRate: 'Betrag',
+  productLineQuantityAmount: 'Betraggesamt',
+  productLines: [
+    {
+      description: 'Fenster einbauen',
+      quantity: '2',
+      rate: '100,00',
+    },
+    { ...initialProductLine },
+    { ...initialProductLine },
+  ],
+  subTotalLabel: 'Netto',
+  taxLabel: 'USt (19%)',
+  totalLabel: 'Gesamtbetrag',
+  currency: '€',
+  notesLabel: 'Wichtige Informationen: ',
+  notes: 'Ich bitte Sie, den Gesamtbetrag innerhalb von 7 Tagen auf das unten genannte Konto zu Überweisen.',
+  termLabel: 'Umsatzsteuernummer & Bankdaten',
+  term: 'Umsatzsteuernummer: ############## - Bankdaten - IBAN ################ - BIC ##########-',
+  
+  umsatzsteuerLabel: 'Umsatzsteuernummer',
+  umsatzsteuer: '',
+  ibanLabel: 'IBAN',
+  iban: '',
+  bicLabel: 'BIC',
+  bic: '',
+}

@@ -1,26 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import InvoicePage from './components/InvoicePage'
+import { Invoice } from './data/types'
 
 function App() {
+  const savedInvoice = window.localStorage.getItem('invoiceData')
+  let data = null
+
+  try {
+    if (savedInvoice) {
+      data = JSON.parse(savedInvoice)
+    }
+  } catch (_e) { }
+
+  const onInvoiceUpdated = (invoice: Invoice) => {
+    window.localStorage.setItem('invoiceData', JSON.stringify(invoice))
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app">
+      <h1 className="center fs-30">React Invoice Generator</h1>
+      <InvoicePage data={data} onChange={onInvoiceUpdated} />
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
