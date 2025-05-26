@@ -173,6 +173,14 @@
   }
 }
 
+.qr-code-wrapper {
+  text-align: center;
+  canvas {
+    display: block;
+    margin: 0 auto;
+  }
+}
+
 .image__edit {
   background-image: url('../images/resize.svg');
   right: 20px;
