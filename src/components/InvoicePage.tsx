@@ -79,6 +79,23 @@ const InvoicePage: FC<Props> = ({ data, pdfMode, onChange }) => {
   const handlePageChange = (page: number) => {
     setCurrentPage(page)
   }
+
+  const handleRemovePage = (page: number) => {
+    if (totalPages > 1) {
+      const newPageProductLines = [...(invoice.pageProductLines || [])]
+      newPageProductLines.splice(page - 1, 1)
+      setInvoice({ ...invoice, pageProductLines: newPageProductLines })
+      
+      const newTotalPages = newPageProductLines.length
+      setTotalPages(newTotalPages)
+      
+      if (currentPage > newTotalPages) {
+        setCurrentPage(newTotalPages)
+      } else if (currentPage === page && page > 1) {
+        setCurrentPage(page - 1)
+      }
+    }
+  }
   const invoiceDate = invoice.invoiceDate !== '' ? new Date(invoice.invoiceDate) : new Date()
   const invoiceDueDate =
     invoice.invoiceDueDate !== ''
@@ -532,6 +549,14 @@ ${reference}`
                   Neue Seite erstellen
                 </button>
               </div>
+              {totalPages > 1 && (
+                <div className="mt-10">
+                  <button className="link" onClick={() => handleRemovePage(currentPage)}>
+                    <span className="icon icon-remove bg-red mr-10"></span>
+                    Seite entfernen
+                  </button>
+                </div>
+              )}
               {totalPages > 1 && (
                 <div className="mt-10">
                   <span style={{ marginRight: '10px', fontWeight: 'bold' }}>Seite: </span>
