@@ -73,6 +73,14 @@ const styles: CSSClasses = {
     width: '18%',
   },
 
+  'w-25': {
+    width: '25%',
+  },
+
+  'w-33': {
+    width: '33.33%',
+  },
+
   row: {
     borderBottom: `1px solid ${colorGray}`,
   },
@@ -93,8 +101,16 @@ const styles: CSSClasses = {
     marginTop: '10px',
   },
 
+  'mt-5': {
+    marginTop: '5px',
+  },
+
   'mb-5': {
     marginBottom: '5px',
+  },
+
+  'ml-10': {
+    marginLeft: '10px',
   },
 
   'p-4-8': {
@@ -109,12 +125,24 @@ const styles: CSSClasses = {
     paddingBottom: '10px',
   },
 
+  'pr-10': {
+    paddingRight: '10px',
+  },
+
   right: {
     textAlign: 'right',
   },
 
+  center: {
+    textAlign: 'center',
+  },
+
   bold: {
     fontWeight: 'bold',
+  },
+
+  'fs-10': {
+    fontSize: '10px',
   },
 
   'fs-20': {
