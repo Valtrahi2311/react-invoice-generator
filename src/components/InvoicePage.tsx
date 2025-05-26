@@ -9,9 +9,11 @@ import Document from './Document'
 import Page from './Page'
 import View from './View'
 import Text from './Text'
-import { Font } from '@react-pdf/renderer'
+import { Font, Image } from '@react-pdf/renderer'
 import Download from './DownloadPDF'
 import format from 'date-fns/format'
+import { QRCodeCanvas } from 'qrcode.react'
+import QRCode from 'qrcode'
 
 Font.register({
   family: 'Nunito',
@@ -31,6 +33,7 @@ const InvoicePage: FC<Props> = ({ data, pdfMode, onChange }) => {
   const [invoice, setInvoice] = useState<Invoice>(data ? { ...data } : { ...initialInvoice })
   const [subTotal, setSubTotal] = useState<number>()
   const [saleTax, setSaleTax] = useState<number>()
+  const [qrCodeDataUrl, setQrCodeDataUrl] = useState<string>('')
 
   const dateFormat = 'yyyy-MM-dd'
   const invoiceDate = invoice.invoiceDate !== '' ? new Date(invoice.invoiceDate) : new Date()
@@ -41,6 +44,30 @@ const InvoicePage: FC<Props> = ({ data, pdfMode, onChange }) => {
 
   if (invoice.invoiceDueDate === '') {
     invoiceDueDate.setDate(invoiceDueDate.getDate() + 30)
+  }
+
+  // Generate SEPA QR Code data
+  const generateSepaQRData = () => {
+    const subtotal = subTotal || 0
+    const tax = subtotal * 0.19 // 19% tax
+    const total = subtotal + tax
+    const recipient = invoice.name || invoice.companyName || ''
+    const iban = invoice.iban || ''
+    const bic = invoice.bic || ''
+    const reference = invoice.invoiceTitle || 'Rechnung'
+    
+    // EPC QR Code format for SEPA payments
+    return `BCD
+002
+1
+SCT
+${bic}
+${recipient}
+${iban}
+EUR${total.toFixed(2)}
+
+
+${reference}`
   }
 
   const handleChange = (name: keyof Invoice, value: string | number) => {
@@ -133,6 +160,40 @@ const InvoicePage: FC<Props> = ({ data, pdfMode, onChange }) => {
       onChange(invoice)
     }
   }, [onChange, invoice])
+
+  useEffect(() => {
+    // Generate QR code data URL for PDF
+    if (invoice.iban && invoice.bic && subTotal) {
+      const subtotal = subTotal || 0
+      const tax = subtotal * 0.19 // 19% tax
+      const total = subtotal + tax
+      const recipient = invoice.name || invoice.companyName || ''
+      const iban = invoice.iban || ''
+      const bic = invoice.bic || ''
+      const reference = invoice.invoiceTitle || 'Rechnung'
+      
+      // EPC QR Code format for SEPA payments
+      const qrData = `BCD
+002
+1
+SCT
+${bic}
+${recipient}
+${iban}
+EUR${total.toFixed(2)}
+
+
+${reference}`
+
+      QRCode.toDataURL(qrData, { 
+        width: 150,
+        margin: 1,
+        errorCorrectionLevel: 'M'
+      })
+        .then(url => setQrCodeDataUrl(url))
+        .catch(err => console.error('Error generating QR code:', err))
+    }
+  }, [invoice.iban, invoice.bic, invoice.name, invoice.companyName, invoice.invoiceTitle, subTotal])
 
   return (
     <Document pdfMode={pdfMode}>
@@ -498,19 +559,44 @@ const InvoicePage: FC<Props> = ({ data, pdfMode, onChange }) => {
                 pdfMode={pdfMode}
               />
             </View>
-            <View className="w-33" pdfMode={pdfMode}>
-              <EditableInput
-                className="bold mb-5"
-                value={invoice.bicLabel}
-                onChange={(value) => handleChange('bicLabel', value)}
-                pdfMode={pdfMode}
-              />
-              <EditableInput
-                placeholder="ABCDDEFG"
-                value={invoice.bic}
-                onChange={(value) => handleChange('bic', value)}
-                pdfMode={pdfMode}
-              />
+            <View className="w-33 flex" pdfMode={pdfMode}>
+              <View className="w-60" pdfMode={pdfMode}>
+                <EditableInput
+                  className="bold mb-5"
+                  value={invoice.bicLabel}
+                  onChange={(value) => handleChange('bicLabel', value)}
+                  pdfMode={pdfMode}
+                />
+                <EditableInput
+                  placeholder="ABCDDEFG"
+                  value={invoice.bic}
+                  onChange={(value) => handleChange('bic', value)}
+                  pdfMode={pdfMode}
+                />
+              </View>
+              {invoice.iban && invoice.bic && (
+                <View className="w-40 ml-10" pdfMode={pdfMode}>
+                  {pdfMode && qrCodeDataUrl ? (
+                    <View>
+                      <Image 
+                        src={qrCodeDataUrl} 
+                        style={{ width: 80, height: 80, marginLeft: 10 }}
+                      />
+                      <Text className="fs-10 center mt-5" pdfMode={pdfMode}>SEPA QR</Text>
+                    </View>
+                  ) : !pdfMode ? (
+                    <div className="qr-code-wrapper">
+                      <QRCodeCanvas
+                        value={generateSepaQRData()}
+                        size={80}
+                        level="M"
+                        includeMargin={true}
+                      />
+                      <Text className="fs-10 center mt-5" pdfMode={pdfMode}>SEPA QR</Text>
+                    </div>
+                  ) : null}
+                </View>
+              )}
             </View>
           </View>
         </View>

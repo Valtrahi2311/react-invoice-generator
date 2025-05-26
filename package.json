@@ -13,6 +13,8 @@
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
     "date-fns": "^2.16.1",
+    "qrcode": "^1.5.4",
+    "qrcode.react": "^4.2.0",
     "rc-slider": "9.2.4",
     "react": "^16.13.1",
     "react-datepicker": "^3.3.0",
@@ -46,6 +48,7 @@
   },
   "devDependencies": {
     "@types/date-fns": "^2.6.0",
+    "@types/qrcode": "^1.5.5",
     "@types/rc-slider": "^8.6.5",
     "@types/react-datepicker": "^3.1.1",
     "@types/react-textarea-autosize": "^4.3.5",
