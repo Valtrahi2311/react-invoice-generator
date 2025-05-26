@@ -414,43 +414,54 @@ ${reference}`
     </>
   )
 
+
+  const renderTableHeader = () => (
+    <View className="mt-30 bg-dark flex" pdfMode={pdfMode}>
+      <View className="w-48 p-4-8" pdfMode={pdfMode}>
+        <EditableInput
+          className="white bold"
+          value={invoice.productLineDescription}
+          onChange={(value) => handleChange('productLineDescription', value)}
+          pdfMode={pdfMode}
+        />
+      </View>
+      <View className="w-17 p-4-8" pdfMode={pdfMode}>
+        <EditableInput
+          className="white bold right"
+          value={invoice.productLineQuantity}
+          onChange={(value) => handleChange('productLineQuantity', value)}
+          pdfMode={pdfMode}
+        />
+      </View>
+      <View className="w-17 p-4-8" pdfMode={pdfMode}>
+        <EditableInput
+          className="white bold right"
+          value={invoice.productLineQuantityRate}
+          onChange={(value) => handleChange('productLineQuantityRate', value)}
+          pdfMode={pdfMode}
+        />
+      </View>
+      <View className="w-25 p-4-8" pdfMode={pdfMode}>
+        <EditableInput
+          className="white bold right"
+          value={invoice.productLineQuantityAmount}
+          onChange={(value) => handleChange('productLineQuantityAmount', value)}
+          pdfMode={pdfMode}
+        />
+      </View>
+    </View>
+  )
+
+  const renderPageFooter = (currentPageNum: number, totalPages: number) => (
+    <View className="mt-20" pdfMode={pdfMode}>
+      <Text className="center fs-10" pdfMode={pdfMode}>
+        {`Seite ${currentPageNum} von ${totalPages}`}
+      </Text>
+    </View>
+  )
+
   const renderTable = (items: any[]) => (
     <>
-      <View className="mt-30 bg-dark flex" pdfMode={pdfMode}>
-        <View className="w-48 p-4-8" pdfMode={pdfMode}>
-          <EditableInput
-            className="white bold"
-            value={invoice.productLineDescription}
-            onChange={(value) => handleChange('productLineDescription', value)}
-            pdfMode={pdfMode}
-          />
-        </View>
-        <View className="w-17 p-4-8" pdfMode={pdfMode}>
-          <EditableInput
-            className="white bold right"
-            value={invoice.productLineQuantity}
-            onChange={(value) => handleChange('productLineQuantity', value)}
-            pdfMode={pdfMode}
-          />
-        </View>
-        <View className="w-17 p-4-8" pdfMode={pdfMode}>
-          <EditableInput
-            className="white bold right"
-            value={invoice.productLineQuantityRate}
-            onChange={(value) => handleChange('productLineQuantityRate', value)}
-            pdfMode={pdfMode}
-          />
-        </View>
-        <View className="w-25 p-4-8" pdfMode={pdfMode}>
-          <EditableInput
-            className="white bold right"
-            value={invoice.productLineQuantityAmount}
-            onChange={(value) => handleChange('productLineQuantityAmount', value)}
-            pdfMode={pdfMode}
-          />
-        </View>
-      </View>
-
       {items.map((productLine, i) => {
         return pdfMode && productLine.description === '' ? (
           <Text key={i}></Text>
@@ -681,29 +692,27 @@ ${reference}`
     </>
   )
 
-  // For PDF, create multiple pages if needed
+  // For PDF, create one page per UI site/page
   const renderPDFPages = () => {
     if (!pdfMode) {
       return renderSinglePage()
     }
     
-    // Calculate pages for PDF
     const pages = []
-    const itemsPerPDFPage = 20 // More items per PDF page
-    const totalPDFPages = Math.max(1, Math.ceil(invoice.productLines.length / itemsPerPDFPage))
+    const uiPages = invoice.pageProductLines || [[]]
+    const totalPDFPages = uiPages.length
     
     for (let pageNum = 0; pageNum < totalPDFPages; pageNum++) {
-      const startIdx = pageNum * itemsPerPDFPage
-      const endIdx = Math.min(startIdx + itemsPerPDFPage, invoice.productLines.length)
-      const pageItems = invoice.productLines.slice(startIdx, endIdx)
-      const isFirstPage = pageNum === 0
+      const pageItems = uiPages[pageNum] || []
       const isLastPage = pageNum === totalPDFPages - 1
       
       pages.push(
         <Page key={pageNum} className="invoice-wrapper" pdfMode={pdfMode}>
-          {isFirstPage && renderHeader()}
+          {renderHeader()}
+          {renderTableHeader()}
           {renderTable(pageItems)}
-          {isLastPage && renderFooter()}
+          {isLastPage ? renderFooter() : null}
+          {renderPageFooter(pageNum + 1, totalPDFPages)}
         </Page>
       )
     }
@@ -716,6 +725,7 @@ ${reference}`
       <Page className="invoice-wrapper" pdfMode={pdfMode}>
         {!pdfMode && <Download data={invoice} />}
         {renderHeader()}
+        {renderTableHeader()}
         {renderTable(getCurrentPageItems())}
         {renderFooter()}
       </Page>
