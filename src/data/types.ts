@@ -47,6 +47,13 @@ export interface Invoice {
   notes: string
   termLabel: string
   term: string
+  
+  umsatzsteuerLabel: string
+  umsatzsteuer: string
+  ibanLabel: string
+  iban: string
+  bicLabel: string
+  bic: string
 }
 
 export interface CSSClasses {

@@ -48,4 +48,11 @@ export const initialInvoice: Invoice = {
   notes: 'Ich bitte Sie, den Gesamtbetrag innerhalb von 7 Tagen auf das unten genannte Konto zu Überweisen.',
   termLabel: 'Umsatzsteuernummer & Bankdaten',
   term: 'Umsatzsteuernummer: ############## - Bankdaten - IBAN ################ - BIC ##########-',
+  
+  umsatzsteuerLabel: 'Umsatzsteuernummer',
+  umsatzsteuer: '',
+  ibanLabel: 'IBAN',
+  iban: '',
+  bicLabel: 'BIC',
+  bic: '',
 }
