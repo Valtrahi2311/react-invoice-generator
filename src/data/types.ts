@@ -36,6 +36,7 @@ export interface Invoice {
   productLineQuantityAmount: string
 
   productLines: ProductLine[]
+  pageProductLines: ProductLine[][] // Array of product lines per page
 
   subTotalLabel: string
   taxLabel: string

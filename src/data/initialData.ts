@@ -31,15 +31,8 @@ export const initialInvoice: Invoice = {
   productLineQuantity: 'Stunden',
   productLineQuantityRate: 'Betrag',
   productLineQuantityAmount: 'Betraggesamt',
-  productLines: [
-    {
-      description: 'Fenster einbauen',
-      quantity: '2',
-      rate: '100,00',
-    },
-    { ...initialProductLine },
-    { ...initialProductLine },
-  ],
+  productLines: [],
+  pageProductLines: [[]],
   subTotalLabel: 'Netto',
   taxLabel: 'USt (19%)',
   totalLabel: 'Gesamtbetrag',

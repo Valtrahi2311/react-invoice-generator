@@ -25,3 +25,28 @@
 .bg-green {
   background-color: $color-green;
 }
+
+.bg-blue {
+  background-color: $color-blue;
+}
+
+.page-nav {
+  display: inline-block;
+  padding: 4px 8px;
+  margin-right: 8px;
+  border: 1px solid $color-gray;
+  border-radius: 3px;
+  background: $color-white;
+  color: $color-dark;
+  text-decoration: none !important;
+  
+  &:hover {
+    background: $color-gray;
+  }
+  
+  &.active {
+    background: $color-blue;
+    color: $color-white;
+    border-color: $color-blue;
+  }
+}
