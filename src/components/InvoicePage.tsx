@@ -469,19 +469,50 @@ const InvoicePage: FC<Props> = ({ data, pdfMode, onChange }) => {
           />
         </View>
         <View className="mt-20" pdfMode={pdfMode}>
-          <EditableInput
-            className="bold w-100"
-            value={invoice.termLabel}
-            onChange={(value) => handleChange('termLabel', value)}
-            pdfMode={pdfMode}
-          />
-          <EditableTextarea
-            className="w-100"
-            rows={2}
-            value={invoice.term}
-            onChange={(value) => handleChange('term', value)}
-            pdfMode={pdfMode}
-          />
+          <View className="flex" pdfMode={pdfMode}>
+            <View className="w-33 pr-10" pdfMode={pdfMode}>
+              <EditableInput
+                className="bold mb-5"
+                value={invoice.umsatzsteuerLabel}
+                onChange={(value) => handleChange('umsatzsteuerLabel', value)}
+                pdfMode={pdfMode}
+              />
+              <EditableInput
+                placeholder="DE123456789"
+                value={invoice.umsatzsteuer}
+                onChange={(value) => handleChange('umsatzsteuer', value)}
+                pdfMode={pdfMode}
+              />
+            </View>
+            <View className="w-33 pr-10" pdfMode={pdfMode}>
+              <EditableInput
+                className="bold mb-5"
+                value={invoice.ibanLabel}
+                onChange={(value) => handleChange('ibanLabel', value)}
+                pdfMode={pdfMode}
+              />
+              <EditableInput
+                placeholder="DE12 3456 7890 1234 5678 90"
+                value={invoice.iban}
+                onChange={(value) => handleChange('iban', value)}
+                pdfMode={pdfMode}
+              />
+            </View>
+            <View className="w-33" pdfMode={pdfMode}>
+              <EditableInput
+                className="bold mb-5"
+                value={invoice.bicLabel}
+                onChange={(value) => handleChange('bicLabel', value)}
+                pdfMode={pdfMode}
+              />
+              <EditableInput
+                placeholder="ABCDDEFG"
+                value={invoice.bic}
+                onChange={(value) => handleChange('bic', value)}
+                pdfMode={pdfMode}
+              />
+            </View>
+          </View>
         </View>
       </Page>
     </Document>
