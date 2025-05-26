@@ -109,7 +109,9 @@ const InvoicePage: FC<Props> = ({ data, pdfMode, onChange }) => {
   // Generate SEPA QR Code data
   const generateSepaQRData = () => {
     const subtotal = subTotal || 0
-    const tax = subtotal * 0.19 // 19% tax
+    const match = invoice.taxLabel.match(/(\d+)%/)
+    const taxRate = match ? parseFloat(match[1]) : 0
+    const tax = (subtotal * taxRate) / 100
     const total = subtotal + tax
     const recipient = invoice.name || invoice.companyName || ''
     const iban = invoice.iban || ''
@@ -245,7 +247,9 @@ ${reference}`
     // Generate QR code data URL for PDF
     if (invoice.iban && invoice.bic && subTotal) {
       const subtotal = subTotal || 0
-      const tax = subtotal * 0.19 // 19% tax
+      const match = invoice.taxLabel.match(/(\d+)%/)
+      const taxRate = match ? parseFloat(match[1]) : 0
+      const tax = (subtotal * taxRate) / 100
       const total = subtotal + tax
       const recipient = invoice.name || invoice.companyName || ''
       const iban = invoice.iban || ''
@@ -273,7 +277,7 @@ ${reference}`
         .then(url => setQrCodeDataUrl(url))
         .catch(err => console.error('Error generating QR code:', err))
     }
-  }, [invoice.iban, invoice.bic, invoice.name, invoice.companyName, invoice.invoiceTitle, subTotal])
+  }, [invoice.iban, invoice.bic, invoice.name, invoice.companyName, invoice.invoiceTitle, subTotal, invoice.taxLabel])
 
   // Render functions for different sections
   const renderHeader = (includeCompanyLogo: boolean = true) => (
@@ -297,13 +301,6 @@ ${reference}`
             value={invoice.companyName}
             onChange={(value) => handleChange('companyName', value)}
             pdfMode={pdfMode}
-          />
-          <EditableInput
-              className="fs-16 bold"
-              placeholder="Firmenname2"
-              value={invoice.companyName2}
-              onChange={(value) => handleChange('companyName2', value)}
-              pdfMode={pdfMode}
           />
           <EditableInput
             placeholder="Dein Vorname"

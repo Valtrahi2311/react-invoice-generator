@@ -11,7 +11,6 @@ export const initialInvoice: Invoice = {
   logoWidth: 100,
   title: 'Rechnung',
   companyName: '',
-  companyName2: '',
   name: '',
   companyAddress: '',
   companyAddress2: '',
