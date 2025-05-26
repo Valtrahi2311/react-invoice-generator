@@ -259,19 +259,21 @@ ${reference}`
   }, [invoice.iban, invoice.bic, invoice.name, invoice.companyName, invoice.invoiceTitle, subTotal])
 
   // Render functions for different sections
-  const renderHeader = () => (
+  const renderHeader = (includeCompanyLogo: boolean = true) => (
     <>
       <View className="flex" pdfMode={pdfMode}>
         <View className="w-50" pdfMode={pdfMode}>
-          <EditableFileImage
-            className="logo"
-            placeholder="Dein Logo"
-            value={invoice.logo}
-            width={invoice.logoWidth}
-            pdfMode={pdfMode}
-            onChangeImage={(value) => handleChange('logo', value)}
-            onChangeWidth={(value) => handleChange('logoWidth', value)}
-          />
+          {includeCompanyLogo && (
+            <EditableFileImage
+              className="logo"
+              placeholder="Dein Logo"
+              value={invoice.logo}
+              width={invoice.logoWidth}
+              pdfMode={pdfMode}
+              onChangeImage={(value) => handleChange('logo', value)}
+              onChangeWidth={(value) => handleChange('logoWidth', value)}
+            />
+          )}
           <EditableInput
             className="fs-16 bold"
             placeholder="Firmenname"
@@ -704,11 +706,12 @@ ${reference}`
     
     for (let pageNum = 0; pageNum < totalPDFPages; pageNum++) {
       const pageItems = uiPages[pageNum] || []
+      const isFirstPage = pageNum === 0
       const isLastPage = pageNum === totalPDFPages - 1
       
       pages.push(
         <Page key={pageNum} className="invoice-wrapper" pdfMode={pdfMode}>
-          {renderHeader()}
+          {renderHeader(isFirstPage)}
           {renderTableHeader()}
           {renderTable(pageItems)}
           {isLastPage ? renderFooter() : null}
