@@ -186,7 +186,7 @@ EUR${total.toFixed(2)}
 ${reference}`
 
       QRCode.toDataURL(qrData, { 
-        width: 150,
+        width: 120,
         margin: 1,
         errorCorrectionLevel: 'M'
       })
@@ -213,14 +213,14 @@ ${reference}`
               onChangeWidth={(value) => handleChange('logoWidth', value)}
             />
             <EditableInput
-              className="fs-20 bold"
+              className="fs-16 bold"
               placeholder="Firmenname"
               value={invoice.companyName}
               onChange={(value) => handleChange('companyName', value)}
               pdfMode={pdfMode}
             />
             <EditableInput
-                className="fs-20 bold"
+                className="fs-16 bold"
                 placeholder="Firmenname2"
                 value={invoice.companyName2}
                 onChange={(value) => handleChange('companyName2', value)}
@@ -253,7 +253,7 @@ ${reference}`
           </View>
           <View className="w-50" pdfMode={pdfMode}>
             <EditableInput
-              className="fs-45 right bold"
+              className="fs-30 right bold"
               placeholder="Rechnung"
               value={invoice.title}
               onChange={(value) => handleChange('title', value)}
@@ -407,7 +407,7 @@ ${reference}`
               <View className="w-48 p-4-8 pb-10" pdfMode={pdfMode}>
                 <EditableTextarea
                   className="dark"
-                  rows={2}
+                  rows={1}
                   placeholder="Enter item name/description"
                   value={productLine.description}
                   onChange={(value) => handleProductLineChange(i, 'description', value)}
@@ -514,7 +514,7 @@ ${reference}`
           </View>
         </View>
 
-        <View className="mt-20" pdfMode={pdfMode}>
+        <View className="mt-8" pdfMode={pdfMode}>
           <EditableInput
             className="bold w-100"
             value={invoice.notesLabel}
@@ -523,13 +523,13 @@ ${reference}`
           />
           <EditableTextarea
             className="w-100"
-            rows={2}
+            rows={1}
             value={invoice.notes}
             onChange={(value) => handleChange('notes', value)}
             pdfMode={pdfMode}
           />
         </View>
-        <View className="mt-20" pdfMode={pdfMode}>
+        <View className="mt-8" pdfMode={pdfMode}>
           <View className="flex" pdfMode={pdfMode}>
             <View className="w-33 pr-10" pdfMode={pdfMode}>
               <EditableInput
@@ -580,7 +580,7 @@ ${reference}`
                     <View>
                       <Image 
                         src={qrCodeDataUrl} 
-                        style={{ width: 80, height: 80, marginLeft: 10 }}
+                        style={{ width: 60, height: 60, marginLeft: 10 }}
                       />
                       <Text className="fs-10 center mt-5" pdfMode={pdfMode}>SEPA QR</Text>
                     </View>
@@ -588,7 +588,7 @@ ${reference}`
                     <div className="qr-code-wrapper">
                       <QRCodeCanvas
                         value={generateSepaQRData()}
-                        size={80}
+                        size={60}
                         level="M"
                         includeMargin={true}
                       />
