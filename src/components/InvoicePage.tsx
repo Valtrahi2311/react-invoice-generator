@@ -109,27 +109,28 @@ const InvoicePage: FC<Props> = ({ data, pdfMode, onChange }) => {
   // Generate SEPA QR Code data
   const generateSepaQRData = () => {
     const subtotal = subTotal || 0
-    const match = invoice.taxLabel.match(/(\d+)%/)
-    const taxRate = match ? parseFloat(match[1]) : 0
-    const tax = (subtotal * taxRate) / 100
+    const tax = saleTax || 0
     const total = subtotal + tax
     const recipient = invoice.name || invoice.companyName || ''
     const iban = invoice.iban || ''
     const bic = invoice.bic || ''
-    const reference = invoice.invoiceTitle || 'Rechnung'
+    const reference = invoice.invoiceTitle ? `ReNr. ${invoice.invoiceTitle}` : 'Rechnung'
     
     // EPC QR Code format for SEPA payments
-    return `BCD
-002
-1
-SCT
-${bic}
-${recipient}
-${iban}
-EUR${total.toFixed(2)}
-
-
-${reference}`
+    return [
+      'BCD',          // Service tag
+      '002',          // Version
+      '1',            // Character set (1 = UTF-8)
+      'SCT',          // Identification
+      bic,            // BIC
+      recipient,      // Beneficiary name
+      iban,           // Beneficiary account
+      `EUR${total.toFixed(2)}`, // Amount
+      '',             // Purpose
+      '',             // Structured reference
+      reference,      // Unstructured reference
+      ''              // Beneficiary to originator information
+    ].join('\n')
   }
 
   const handleChange = (name: keyof Invoice, value: string | number) => {
@@ -247,27 +248,28 @@ ${reference}`
     // Generate QR code data URL for PDF
     if (invoice.iban && invoice.bic && subTotal) {
       const subtotal = subTotal || 0
-      const match = invoice.taxLabel.match(/(\d+)%/)
-      const taxRate = match ? parseFloat(match[1]) : 0
-      const tax = (subtotal * taxRate) / 100
+      const tax = saleTax || 0
       const total = subtotal + tax
       const recipient = invoice.name || invoice.companyName || ''
       const iban = invoice.iban || ''
       const bic = invoice.bic || ''
-      const reference = invoice.invoiceTitle || 'Rechnung'
+      const reference = invoice.invoiceTitle ? `ReNr. ${invoice.invoiceTitle}` : 'Rechnung'
       
       // EPC QR Code format for SEPA payments
-      const qrData = `BCD
-002
-1
-SCT
-${bic}
-${recipient}
-${iban}
-EUR${total.toFixed(2)}
-
-
-${reference}`
+      const qrData = [
+        'BCD',          // Service tag
+        '002',          // Version
+        '1',            // Character set (1 = UTF-8)
+        'SCT',          // Identification
+        bic,            // BIC
+        recipient,      // Beneficiary name
+        iban,           // Beneficiary account
+        `EUR${total.toFixed(2)}`, // Amount
+        '',             // Purpose
+        '',             // Structured reference
+        reference,      // Unstructured reference
+        ''              // Beneficiary to originator information
+      ].join('\n')
 
       QRCode.toDataURL(qrData, { 
         width: 120,
@@ -277,7 +279,7 @@ ${reference}`
         .then(url => setQrCodeDataUrl(url))
         .catch(err => console.error('Error generating QR code:', err))
     }
-  }, [invoice.iban, invoice.bic, invoice.name, invoice.companyName, invoice.invoiceTitle, subTotal, invoice.taxLabel])
+  }, [invoice.iban, invoice.bic, invoice.name, invoice.companyName, invoice.invoiceTitle, subTotal, saleTax])
 
   // Render functions for different sections
   const renderHeader = (includeCompanyLogo: boolean = true) => (
