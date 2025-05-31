@@ -485,7 +485,7 @@ const InvoicePage: FC<Props> = ({ data, pdfMode, onChange }) => {
           <Text key={i}></Text>
         ) : (
           <View key={i} className="row flex" pdfMode={pdfMode}>
-            <View className="w-48 p-4-8 pb-10" pdfMode={pdfMode}>
+            <View className={`w-48 p-4-8 ${pdfMode ? 'pb-5' : 'pb-10'}`} pdfMode={pdfMode}>
               <EditableTextarea
                 className="dark"
                 rows={1}
@@ -495,7 +495,7 @@ const InvoicePage: FC<Props> = ({ data, pdfMode, onChange }) => {
                 pdfMode={pdfMode}
               />
             </View>
-            <View className="w-17 p-4-8 pb-10" pdfMode={pdfMode}>
+            <View className={`w-17 p-4-8 ${pdfMode ? 'pb-5' : 'pb-10'}`} pdfMode={pdfMode}>
               <EditableInput
                 className="dark right"
                 value={productLine.quantity}
@@ -503,7 +503,7 @@ const InvoicePage: FC<Props> = ({ data, pdfMode, onChange }) => {
                 pdfMode={pdfMode}
               />
             </View>
-            <View className="w-17 p-4-8 pb-10" pdfMode={pdfMode}>
+            <View className={`w-17 p-4-8 ${pdfMode ? 'pb-5' : 'pb-10'}`} pdfMode={pdfMode}>
               <EditableInput
                 className="dark right"
                 value={productLine.rate}
@@ -511,7 +511,7 @@ const InvoicePage: FC<Props> = ({ data, pdfMode, onChange }) => {
                 pdfMode={pdfMode}
               />
             </View>
-            <View className="w-25 p-4-8 pb-10" pdfMode={pdfMode}>
+            <View className={`w-25 p-4-8 ${pdfMode ? 'pb-5' : 'pb-10'}`} pdfMode={pdfMode}>
               <Text className="dark right" pdfMode={pdfMode}>
                 {calculateAmount(productLine.quantity, productLine.rate).replace('.',',')}
               </Text>
@@ -726,10 +726,20 @@ const InvoicePage: FC<Props> = ({ data, pdfMode, onChange }) => {
     
     const pages = []
     const uiPages = invoice.pageProductLines || [[]]
-    const totalPDFPages = uiPages.length
+    
+    // Filter out completely empty pages (pages with no items or only empty items)
+    const nonEmptyPages = uiPages.filter(pageItems => 
+      pageItems && pageItems.length > 0 && pageItems.some(item => 
+        item.description?.trim() || item.quantity?.trim() || item.rate?.trim()
+      )
+    )
+    
+    // If no pages have content, create at least one page
+    const pagesToRender = nonEmptyPages.length > 0 ? nonEmptyPages : [[]]
+    const totalPDFPages = pagesToRender.length
     
     for (let pageNum = 0; pageNum < totalPDFPages; pageNum++) {
-      const pageItems = uiPages[pageNum] || []
+      const pageItems = pagesToRender[pageNum] || []
       const isFirstPage = pageNum === 0
       const isLastPage = pageNum === totalPDFPages - 1
       

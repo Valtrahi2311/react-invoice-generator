@@ -90,11 +90,11 @@ const styles: CSSClasses = {
   },
 
   'mt-30': {
-    marginTop: '30px',
+    marginTop: '20px',
   },
 
   'mt-20': {
-    marginTop: '20px',
+    marginTop: '15px',
   },
 
   'mt-10': {
@@ -114,7 +114,7 @@ const styles: CSSClasses = {
   },
 
   'p-4-8': {
-    padding: '4px 8px',
+    padding: '3px 6px',
   },
 
   'p-5': {
@@ -122,7 +122,11 @@ const styles: CSSClasses = {
   },
 
   'pb-10': {
-    paddingBottom: '10px',
+    paddingBottom: '6px',
+  },
+
+  'pb-5': {
+    paddingBottom: '3px',
   },
 
   'pr-10': {
@@ -155,9 +159,9 @@ const styles: CSSClasses = {
 
   page: {
     fontFamily: 'Nunito',
-    fontSize: '13px',
+    fontSize: '11px',
     color: '#555',
-    padding: '40px 35px',
+    padding: '25px 20px',
   },
 
   span: {
