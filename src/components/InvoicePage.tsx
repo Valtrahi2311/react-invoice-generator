@@ -272,9 +272,9 @@ const InvoicePage: FC<Props> = ({ data, pdfMode, onChange }) => {
       ].join('\n')
 
       QRCode.toDataURL(qrData, { 
-        width: 120,
-        margin: 1,
-        errorCorrectionLevel: 'M'
+        width: 90,
+        margin: 0,
+        errorCorrectionLevel: 'L'
       })
         .then(url => setQrCodeDataUrl(url))
         .catch(err => console.error('Error generating QR code:', err))
@@ -298,7 +298,7 @@ const InvoicePage: FC<Props> = ({ data, pdfMode, onChange }) => {
             />
           )}
           <EditableInput
-            className="fs-16 bold"
+            className={`${pdfMode ? 'fs-14-pdf' : 'fs-16'} bold`}
             placeholder="Firmenname"
             value={invoice.companyName}
             onChange={(value) => handleChange('companyName', value)}
@@ -325,7 +325,7 @@ const InvoicePage: FC<Props> = ({ data, pdfMode, onChange }) => {
         </View>
         <View className="w-50" pdfMode={pdfMode}>
           <EditableInput
-            className="fs-30 right bold"
+            className={`${pdfMode ? 'fs-24-pdf' : 'fs-30'} right bold`}
             placeholder="Rechnung"
             value={invoice.title}
             onChange={(value) => handleChange('title', value)}
@@ -334,7 +334,7 @@ const InvoicePage: FC<Props> = ({ data, pdfMode, onChange }) => {
         </View>
       </View>
 
-      <View className="flex mt-40" pdfMode={pdfMode}>
+      <View className={`flex ${pdfMode ? 'mt-25-pdf' : 'mt-40'}`} pdfMode={pdfMode}>
         <View className="w-55" pdfMode={pdfMode}>
           <EditableInput
             className="bold dark mb-5"
@@ -434,7 +434,7 @@ const InvoicePage: FC<Props> = ({ data, pdfMode, onChange }) => {
 
 
   const renderTableHeader = () => (
-    <View className="mt-30 bg-dark flex" pdfMode={pdfMode}>
+    <View className={`${pdfMode ? 'mt-15-pdf' : 'mt-30'} bg-dark flex`} pdfMode={pdfMode}>
       <View className="w-48 p-4-8" pdfMode={pdfMode}>
         <EditableInput
           className="white bold"
@@ -471,7 +471,7 @@ const InvoicePage: FC<Props> = ({ data, pdfMode, onChange }) => {
   )
 
   const renderPageFooter = (currentPageNum: number, totalPages: number) => (
-    <View className="mt-20" pdfMode={pdfMode}>
+    <View className={`${pdfMode ? 'mt-15-pdf' : 'mt-20'}`} pdfMode={pdfMode}>
       <Text className="center fs-10" pdfMode={pdfMode}>
         {`Seite ${currentPageNum} von ${totalPages}`}
       </Text>
@@ -629,7 +629,7 @@ const InvoicePage: FC<Props> = ({ data, pdfMode, onChange }) => {
         </View>
       </View>
 
-      <View className="mt-8" pdfMode={pdfMode}>
+      <View className={`${pdfMode ? 'mt-8-pdf' : 'mt-8'}`} pdfMode={pdfMode}>
         <EditableInput
           className="bold w-100"
           value={invoice.notesLabel}
@@ -644,7 +644,7 @@ const InvoicePage: FC<Props> = ({ data, pdfMode, onChange }) => {
           pdfMode={pdfMode}
         />
       </View>
-      <View className="mt-8" pdfMode={pdfMode}>
+      <View className={`${pdfMode ? 'mt-8-pdf' : 'mt-8'}`} pdfMode={pdfMode}>
         <View className="flex" pdfMode={pdfMode}>
           <View className="w-33 pr-10" pdfMode={pdfMode}>
             <EditableInput
@@ -695,7 +695,7 @@ const InvoicePage: FC<Props> = ({ data, pdfMode, onChange }) => {
                   <View>
                     <Image 
                       src={qrCodeDataUrl} 
-                      style={{ width: 60, height: 60, marginLeft: 10 }}
+                      style={{ width: 45, height: 45, marginLeft: 10 }}
                     />
                     <Text className="fs-10 center mt-5" pdfMode={pdfMode}>SEPA QR</Text>
                   </View>

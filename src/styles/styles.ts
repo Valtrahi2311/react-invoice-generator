@@ -157,6 +157,35 @@ const styles: CSSClasses = {
     fontSize: '45px',
   },
 
+  'fs-16': {
+    fontSize: '16px',
+  },
+
+  'fs-30': {
+    fontSize: '30px',
+  },
+
+  // PDF-specific smaller sizes
+  'fs-24-pdf': {
+    fontSize: '20px',
+  },
+
+  'fs-14-pdf': {
+    fontSize: '12px',
+  },
+
+  'mt-8-pdf': {
+    marginTop: '5px',
+  },
+
+  'mt-15-pdf': {
+    marginTop: '10px',
+  },
+
+  'mt-25-pdf': {
+    marginTop: '15px',
+  },
+
   page: {
     fontFamily: 'Nunito',
     fontSize: '11px',
